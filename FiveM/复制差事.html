@@ -2,7 +2,7 @@
 title: 复制差事
 description: 
 published: true
-date: 2023-12-24T04:10:58.229Z
+date: 2023-12-24T13:44:46.658Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T05:48:37.583Z
@@ -43,7 +43,7 @@ def crawl_urls(base_url):
                             # 检查返回的数据，根据具体需求进行处理
                             if data:
                                 print(f"Valid URL: {url}")
-                                input("数据已找到，请复制到Nicko's Job Editor里。按 Enter 键继续...")
+                                input("数据已找到，请复制到Nicko's Job Editor里（不要复制空格）。按 Enter 键继续...")
                                 return True  # 找到数据后返回True
                         except json.JSONDecodeError:
                             print(f"Invalid JSON response for URL: {url}")
