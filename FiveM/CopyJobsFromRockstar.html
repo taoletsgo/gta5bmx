@@ -2,7 +2,7 @@
 title: Copy Jobs From Rockstar
 description: 
 published: true
-date: 2023-12-24T04:23:36.506Z
+date: 2023-12-24T04:24:05.506Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T09:58:43.345Z
@@ -56,7 +56,7 @@ def crawl_urls(base_url):
     return False
 
 if __name__ == "__main__":
-    base_url = input("Please enter the job image URL（For examplehttps://prod.cloud.rockstargames.com/ugc/gta5mission/1966/b5qPg2UtVkyK90ynmAl2-A/2_0.jpg）: ")
+    base_url = input("Please enter the job image URL（For example https://prod.cloud.rockstargames.com/ugc/gta5mission/1966/b5qPg2UtVkyK90ynmAl2-A/2_0.jpg）: ")
     
     if not crawl_urls(base_url):
         print("No json found. Press Enter to exit.")
