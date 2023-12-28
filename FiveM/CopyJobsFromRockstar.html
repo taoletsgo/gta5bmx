@@ -2,7 +2,7 @@
 title: Copy Jobs From Rockstar
 description: 
 published: true
-date: 2023-12-28T11:34:32.520Z
+date: 2023-12-28T11:37:50.109Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T09:58:43.345Z
@@ -60,7 +60,7 @@ def crawl_urls(base_url):
     url_number = extract_number_from_url(base_url)
 
     if url_number == -1:
-        print("Make sure you copy the job image URL.")
+        print("Make sure you paste the job image URL.")
         return False
 
     j_range_1 = get_j_range(url_number, 10)
@@ -82,8 +82,7 @@ if __name__ == "__main__":
             break
 
         if not crawl_urls(base_url):
-            print("No json found.")
-</code></pre>
+            print("No json found.")</code></pre>
 <h2>Run code</h2>
 <p>Right-click "json-web-search.py" to pop up the menu and open it using Python</p>
 <p>A terminal program will pop up, prompting "Please enter the job image URL"</p>
