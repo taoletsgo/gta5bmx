@@ -2,7 +2,7 @@
 title: Copy Jobs From Rockstar
 description: 
 published: true
-date: 2023-12-28T11:31:33.063Z
+date: 2023-12-28T11:34:22.195Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T09:58:43.345Z
@@ -20,48 +20,69 @@ dateCreated: 2023-12-22T09:58:43.345Z
 <pre><code class="language-plaintext">pip install requests</code></pre>
 <h2>Copy code</h2>
 <p>Use Notepad to create a new “json-web-search”, change the suffix to .py, copy the following content and save it</p>
-<pre><code class="language-plaintext">import request
+<pre><code class="language-plaintext">import requests
 import json
 
+def get_j_range(url_number, multiplier):
+    return range(int(url_number) * multiplier, int(url_number) * multiplier + multiplier)
+
+def extract_number_from_url(url):
+    try:
+        return int(url.split('/')[-1].split('_')[1].split('.')[0])
+    except (IndexError, ValueError):
+        return -1
+
+def make_request(base_url, j, lang):
+    url = f"{base_url.rsplit('/', 1)[0]}/0_{j}_{lang}.json"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            data = response.json()
+            if data:
+                print(f"The json has been found: {url}")
+                print("Please copy it to Nicko's Job Editor.")
+                return True
+        elif response.status_code == 404:
+            print(f"URL not found: {url}")
+        else:
+            print(f"Error for URL {url}: {response.status_code}")
+
+    except requests.RequestException as e:
+        print(f"Error for URL {url}: {str(e)}")
+
+    return False
+
 def crawl_urls(base_url):
-    for i in range(3):
-        for j in range(3):
+    url_number = extract_number_from_url(base_url)
+
+    if url_number == -1:
+        print("Make sure you copy the job image URL.")
+        return False
+
+    j_range_1 = get_j_range(url_number, 10)
+    j_range_2 = get_j_range(url_number, 100) if url_number != 0 else []
+
+    for j_range in [j_range_1, j_range_2]:
+        for j in j_range:
             for lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]:
-                old_url = f"{base_url}/2_0.jpg"
-                url = f"{base_url.rsplit('/', 1)[0]}/{i}_{j}_{lang}.json"
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-                }
-
-                try:
-                    response = requests.get(url, headers=headers)
-
-                    if response.status_code == 200:
-                        try:
-                            data = response.json()
-                            if data:
-                                print(f"Valid URL: {url}")
-                                input("The json has been found, please copy it to Nicko's Job Editor. Press Enter to continue...")
-                                return True
-                        except json.JSONDecodeError:
-                            print(f"Invalid JSON response for URL: {url}")
-                    elif response.status_code == 404:
-                        print(f"URL not found: {url}")
-                    else:
-                        print(f"Error for URL {url}: {response.status_code}")
-
-                except requests.RequestException as e:
-                    print(f"Error for URL {url}: {str(e)}")
+                if make_request(base_url, j, lang):
+                    return True
 
     return False
 
 if __name__ == "__main__":
-    base_url = input("Please enter the job image URL（For example https://prod.cloud.rockstargames.com/ugc/gta5mission/1966/b5qPg2UtVkyK90ynmAl2-A/2_0.jpg）: ")
-    
-    if not crawl_urls(base_url):
-        print("No json found. Press Enter to exit.")
-        input()
+    while True:
+        base_url = input("Please enter the job image URL（For example https://prod.cloud.rockstargames.com/ugc/gta5mission/1966/b5qPg2UtVkyK90ynmAl2-A/2_0.jpg）:")
 
+        if base_url.lower() == 'exit':
+            break
+
+        if not crawl_urls(base_url):
+            print("No json found.")
 </code></pre>
 <h2>Run code</h2>
 <p>Right-click "json-web-search.py" to pop up the menu and open it using Python</p>
