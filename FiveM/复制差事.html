@@ -2,7 +2,7 @@
 title: 复制差事
 description: 
 published: true
-date: 2023-12-28T09:00:02.144Z
+date: 2023-12-28T09:02:48.585Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T05:48:37.583Z
@@ -61,9 +61,8 @@ if __name__ == "__main__":
     base_url = input("请输入差事图片URL（例如https://prod.cloud.rockstargames.com/ugc/gta5mission/1966/b5qPg2UtVkyK90ynmAl2-A/2_0.jpg）: ")
     
     if not crawl_urls(base_url):
-        print("未找到任何数据。按 Enter 键退出。")
-        input()
-</code></pre>
+        print("未找到任何数据，请把i j括号里的值修改为更高的数值。按 Enter 键退出。")
+        input()</code></pre>
 <h2><strong>运行代码</strong></h2>
 <p>右键“json-web-search.py”弹出菜单，使用Python打开</p>
 <p>即可弹出一个终端程序，提示“请输入差事图片URL”</p>
