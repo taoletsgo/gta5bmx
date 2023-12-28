@@ -2,7 +2,7 @@
 title: Copy Jobs From Rockstar
 description: 
 published: true
-date: 2023-12-28T12:00:26.993Z
+date: 2023-12-28T12:22:50.433Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T09:58:43.345Z
@@ -40,8 +40,8 @@ def crawl_urls(base_url):
                         try:
                             data = response.json()
                             if data:
-                                print(f"Json data found: {url}")
-                                input("Please copy it into Nicko's Job Editor (do not copy spaces). Press Enter to continue...")
+                                print(f"Json data found:{url}")
+                                print(f"Please copy it into Nicko's Job Editor (do not copy spaces).")
                                 return True
                         except json.JSONDecodeError:
                             print(f"Invalid JSON response for URL: {url}")
