@@ -2,7 +2,7 @@
 title: 复制差事
 description: 
 published: true
-date: 2024-01-01T18:04:40.125Z
+date: 2024-01-01T18:05:21.561Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T05:48:37.583Z
@@ -87,7 +87,7 @@ if __name__ == "__main__":
             break
 
         crawl_urls_concurrently(base_url)</code></pre>
-<p><code>MAX_CONCURRENT_REQUESTS = 20</code>是同时查询并发数量，根据自己的CPU性能决定，推荐10~20之间<br><code>i in range(3)</code>默认即可<br><code>j in range(500)</code>默认即可<br><code>lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]</code>如果你知道作者的国籍，可以把其他的国家代码缩写从中删除</p>
+<p><code>MAX_CONCURRENT_REQUESTS = 20</code>是同时查询并发数量，根据自己的CPU性能决定，推荐10~20之间<br><code>i in range(3)</code>默认即可<br><code>j in range(500)</code>默认即可<br><code>lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]</code>如果你知道作者的国籍，可以把其他的国家代码缩写删除，加快查询速度</p>
 <h2><strong>运行代码</strong></h2>
 <p>右键“json-web-search.py”弹出菜单，使用Python打开</p>
 <p>即可弹出一个终端程序，提示“请输入差事图片URL”</p>
