@@ -2,7 +2,7 @@
 title: Copy Jobs From Rockstar
 description: 
 published: true
-date: 2024-01-01T17:59:21.849Z
+date: 2024-01-01T18:07:51.945Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T09:58:43.345Z
@@ -86,6 +86,9 @@ if __name__ == "__main__":
             break
 
         crawl_urls_concurrently(base_url)</code></pre>
+<blockquote>
+  <p><code>MAX_CONCURRENT_REQUESTS = 20</code>It is the number of concurrent queries at the same time. It is determined according to your own CPU performance. It is recommended to be between 10 and 20.<br><code>i in range(3)</code>Just leave it as default<br><code>j in range(500)</code>Just leave it as default<br><code>lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]</code>If you know the author's nationality, you can delete other country code to speed up the query.</p>
+</blockquote>
 <h2>Run code</h2>
 <p>Right-click "json-web-search.py" to pop up the menu and open it using Python</p>
 <p>A terminal program will pop up, prompting "Please enter the job image URL"</p>
