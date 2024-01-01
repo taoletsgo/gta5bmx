@@ -2,7 +2,7 @@
 title: 复制差事
 description: 
 published: true
-date: 2023-12-30T07:48:33.608Z
+date: 2024-01-01T17:49:48.801Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T05:48:37.583Z
@@ -23,38 +23,61 @@ dateCreated: 2023-12-22T05:48:37.583Z
 <p>用记事本新建一个json-web-search，后缀改为.py，复制以下内容保存</p>
 <pre><code class="language-plaintext">import requests
 import json
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-def crawl_urls(base_url):
+MAX_CONCURRENT_REQUESTS = 20
+
+def crawl_url(url, found_data):
+    if found_data.is_set():
+        # Data found by another thread, no need to continue
+        return False
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            try:
+                data = response.json()
+                if data:
+                    print(f"数据已找到:{url}")
+                    print(f"请复制到Nicko's Job Editor里（不要复制空格）")
+                    # Set the flag indicating data is found
+                    found_data.set()
+                    return True
+            except json.JSONDecodeError:
+                print(f"Invalid JSON response for URL: {url}")
+        elif response.status_code == 404:
+            print(f"URL not found: {url}")
+        else:
+            print(f"Error for URL {url}: {response.status_code}")
+
+    except requests.RequestException as e:
+        print(f"Error for URL {url}: {str(e)}")
+
+    return False
+
+def crawl_urls_concurrently(base_url):
+    found_data = threading.Event()
+
+    urls = []
     for i in range(3):
         for j in range(500):
             for lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]:
                 old_url = f"{base_url}/2_0.jpg"
                 url = f"{base_url.rsplit('/', 1)[0]}/{i}_{j}_{lang}.json"
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-                }
+                urls.append(url)
 
-                try:
-                    response = requests.get(url, headers=headers)
-
-                    if response.status_code == 200:
-                        try:
-                            data = response.json()
-                            if data:
-                                print(f"数据已找到:{url}")
-                                print(f"请复制到Nicko's Job Editor里（不要复制空格）")
-                                return True
-                        except json.JSONDecodeError:
-                            print(f"Invalid JSON response for URL: {url}")
-                    elif response.status_code == 404:
-                        print(f"URL not found: {url}")
-                    else:
-                        print(f"Error for URL {url}: {response.status_code}")
-
-                except requests.RequestException as e:
-                    print(f"Error for URL {url}: {str(e)}")
-
-    return False
+    with ThreadPoolExecutor(max_workers=MAX_CONCURRENT_REQUESTS) as executor:
+        futures = [executor.submit(crawl_url, url, found_data) for url in urls]
+        for future in as_completed(futures):
+            # Stop further crawling if any of the tasks returns True (data found)
+            if future.result():
+                break
 
 if __name__ == "__main__":
     while True:
@@ -63,8 +86,8 @@ if __name__ == "__main__":
         if base_url.lower() == 'exit':
             break
 
-        if not crawl_urls(base_url):
-            print("未找到任何数据。")</code></pre>
+        crawl_urls_concurrently(base_url)
+</code></pre>
 <h2><strong>运行代码</strong></h2>
 <p>右键“json-web-search.py”弹出菜单，使用Python打开</p>
 <p>即可弹出一个终端程序，提示“请输入差事图片URL”</p>
