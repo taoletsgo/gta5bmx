@@ -2,7 +2,7 @@
 title: Copy Jobs From Rockstar
 description: 
 published: true
-date: 2023-12-28T12:24:26.290Z
+date: 2024-01-01T17:59:21.849Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T09:58:43.345Z
@@ -22,38 +22,61 @@ dateCreated: 2023-12-22T09:58:43.345Z
 <p>Use Notepad to create a new “json-web-search”, change the suffix to .py, copy the following content and save it</p>
 <pre><code class="language-plaintext">import requests
 import json
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-def crawl_urls(base_url):
+MAX_CONCURRENT_REQUESTS = 20
+
+def crawl_url(url, found_data):
+    if found_data.is_set():
+        # Data found by another thread, no need to continue
+        return False
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            try:
+                data = response.json()
+                if data:
+                    print(f"Json data found:{url}")
+                    print(f"Please copy it into Nicko's Job Editor (do not copy spaces).")
+                    # Set the flag indicating data is found
+                    found_data.set()
+                    return True
+            except json.JSONDecodeError:
+                print(f"Invalid JSON response for URL: {url}")
+        elif response.status_code == 404:
+            print(f"URL not found: {url}")
+        else:
+            print(f"Error for URL {url}: {response.status_code}")
+
+    except requests.RequestException as e:
+        print(f"Error for URL {url}: {str(e)}")
+
+    return False
+
+def crawl_urls_concurrently(base_url):
+    found_data = threading.Event()
+
+    urls = []
     for i in range(3):
         for j in range(500):
             for lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]:
                 old_url = f"{base_url}/2_0.jpg"
                 url = f"{base_url.rsplit('/', 1)[0]}/{i}_{j}_{lang}.json"
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-                }
+                urls.append(url)
 
-                try:
-                    response = requests.get(url, headers=headers)
-
-                    if response.status_code == 200:
-                        try:
-                            data = response.json()
-                            if data:
-                                print(f"Json data found:{url}")
-                                print(f"Please copy it into Nicko's Job Editor (do not copy spaces).")
-                                return True
-                        except json.JSONDecodeError:
-                            print(f"Invalid JSON response for URL: {url}")
-                    elif response.status_code == 404:
-                        print(f"URL not found: {url}")
-                    else:
-                        print(f"Error for URL {url}: {response.status_code}")
-
-                except requests.RequestException as e:
-                    print(f"Error for URL {url}: {str(e)}")
-
-    return False
+    with ThreadPoolExecutor(max_workers=MAX_CONCURRENT_REQUESTS) as executor:
+        futures = [executor.submit(crawl_url, url, found_data) for url in urls]
+        for future in as_completed(futures):
+            # Stop further crawling if any of the tasks returns True (data found)
+            if future.result():
+                break
 
 if __name__ == "__main__":
     while True:
@@ -62,8 +85,7 @@ if __name__ == "__main__":
         if base_url.lower() == 'exit':
             break
 
-        if not crawl_urls(base_url):
-            print("No json data found.")</code></pre>
+        crawl_urls_concurrently(base_url)</code></pre>
 <h2>Run code</h2>
 <p>Right-click "json-web-search.py" to pop up the menu and open it using Python</p>
 <p>A terminal program will pop up, prompting "Please enter the job image URL"</p>
