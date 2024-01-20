@@ -1,0 +1,143 @@
+<!--
+title: Copy Jobs From Rockstar
+description: 
+published: true
+date: 2024-01-02T13:57:42.301Z
+tags: 
+editor: ckeditor
+dateCreated: 2023-12-22T09:58:43.345Z
+-->
+
+<h1>1.get json web</h1>
+<h2>Install Python</h2>
+<p><a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p>
+<ul>
+  <li>During installation, make sure to check the "Add Python to PATH" option</li>
+</ul>
+<h2>Install dependent libraries</h2>
+<p>win+X to open terminal or command prompt</p>
+<p>Run the following command to install the <code>requests</code> library:</p>
+<pre><code class="language-plaintext">pip install requests</code></pre>
+<h2>Copy code</h2>
+<p>Use Notepad to create a new “json-web-search”, change the suffix to .py, copy the following content and save it</p>
+<pre><code class="language-plaintext">import requests
+import json
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+MAX_CONCURRENT_REQUESTS = 20
+
+def crawl_url(url, found_data):
+    if found_data.is_set():
+        # Data found by another thread, no need to continue
+        return False
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            try:
+                data = response.json()
+                if data:
+                    print(f"Json data found:{url}")
+                    print(f"Please copy it into Nicko's Job Editor (do not copy spaces).")
+                    # Set the flag indicating data is found
+                    found_data.set()
+                    return True
+            except json.JSONDecodeError:
+                print(f"Invalid JSON response for URL: {url}")
+        elif response.status_code == 404:
+            print(f"URL not found: {url}")
+        else:
+            print(f"Error for URL {url}: {response.status_code}")
+
+    except requests.RequestException as e:
+        print(f"Error for URL {url}: {str(e)}")
+
+    return False
+
+def crawl_urls_concurrently(base_url):
+    found_data = threading.Event()
+
+    urls = []
+    for i in range(3):
+        for j in range(500):
+            for lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]:
+                old_url = f"{base_url}/2_0.jpg"
+                url = f"{base_url.rsplit('/', 1)[0]}/{i}_{j}_{lang}.json"
+                urls.append(url)
+
+    with ThreadPoolExecutor(max_workers=MAX_CONCURRENT_REQUESTS) as executor:
+        futures = [executor.submit(crawl_url, url, found_data) for url in urls]
+        for future in as_completed(futures):
+            # Stop further crawling if any of the tasks returns True (data found)
+            if future.result():
+                break
+
+if __name__ == "__main__":
+    while True:
+        base_url = input("Please paste the job image URL（For example https://prod.cloud.rockstargames.com/ugc/gta5mission/1966/b5qPg2UtVkyK90ynmAl2-A/2_0.jpg）: ")
+
+        if base_url.lower() == 'exit':
+            break
+
+        crawl_urls_concurrently(base_url)</code></pre>
+<blockquote>
+  <ul>
+    <li><code>MAX_CONCURRENT_REQUESTS = 20</code>It is the number of concurrent queries at the same time. It is determined according to your own CPU performance. It is recommended to be between 10 and 20.</li>
+    <li><code>i in range(3)</code>Just leave it as default</li>
+    <li><code>j in range(500)</code>Just leave it as default</li>
+    <li><code>lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]</code>If you know the author's nationality, you can delete other country code to speed up the query.</li>
+  </ul>
+</blockquote>
+<h2>Run code</h2>
+<p>Right-click "json-web-search.py" to pop up the menu and open it using Python</p>
+<p>A terminal program will pop up, prompting "Please enter the job image URL"</p>
+<h2>Paste image URL</h2>
+<p><a href="https://socialclub.rockstargames.com/jobs">https://socialclub.rockstargames.com/jobs</a></p>
+<p>Search for the job you want to copy, right-click and copy the job image URL address（Sorry, there are Chinese words in the pic.）</p>
+<figure class="image"><img src="https://gta5bmx.me/fivem%E7%9B%B8%E5%85%B3/nicko's_job_editor_2.png"></figure>
+<p>Paste it into the terminal program and press Enter to confirm</p>
+<p>Print "The json has been found, please copy it to Nicko's Job Editor. Press Enter to continue..."</p>
+<h1>2.get .xml</h1>
+<h2><strong>Open Nicko's Job Editor</strong></h2>
+<p><a href="https://drive.google.com/file/d/1eGthxOLaJ3IN3a1g2F8mxdbviK8UihTa/view"><span class="text-big">Google Drive</span></a></p>
+<figure class="image"><img src="https://gta5bmx.me/fivem%E7%9B%B8%E5%85%B3/nicko's_job_editor_1.png"></figure>
+<p>Right click and paste the json address you just copied</p>
+<h2>Convert</h2>
+<p>Do you want to replace checkpoints by markers（Yes）</p>
+<p>Do you want to replace checkpoints by vehicles（Yes）</p>
+<p>Select the xml saving path.</p>
+<h1>3.paste xml content</h1>
+<p>1.Select Props</p>
+<figure class="image"><img src="/fivem相关/copy1.png"></figure>
+<p>2.Select Advanced Option</p>
+<figure class="image"><img src="/fivem相关/copy2.png"></figure>
+<p>3.Select Upload XML</p>
+<figure class="image"><img src="/fivem相关/copy3.png"></figure>
+<p>4.Open the xml file with notepad and copy the contents inside</p>
+<p>5.Paste it</p>
+<h1>Extra things to do</h1>
+<h2>⚠️Open Check Height</h2>
+<p>Avoid reaching checkpoints while on the ground</p>
+<p>1.Select Checkpoint</p>
+<figure class="image"><img src="/fivem相关/cptips1.png"></figure>
+<p>2.Select Override</p>
+<figure class="image"><img src="/fivem相关/cptips2.png"></figure>
+<p>3.Check Height（Yes）</p>
+<figure class="image"><img src="/fivem相关/cptips3.png"></figure>
+<h2>Race details</h2>
+<figure class="image"><img src="https://gta5bmx.me/fivem%E7%9B%B8%E5%85%B3/%E5%9B%BE%E5%90%8D%E4%BF%A1%E6%81%AF.png"></figure>
+<ul>
+  <li>Title（Simplified Chinese or English）</li>
+  <li>Description（Simplified Chinese or English）</li>
+  <li>Length（The total distance between checkpoints must be longer than 1 mile to save）</li>
+  <li>Route Type（Choose Point to Point. If there are no special requirements, do not choose Laps）</li>
+  <li>Map Type（Set to the author's name or abbreviation, such as ioio/RA/nape777/pino, etc.）</li>
+  <li>Image（The cover image can be left blank, or you can right-click and copy the image URL from the Rockstar job page and paste it.）</li>
+  <li>Force Vehicle（Set to BMX）</li>
+</ul>

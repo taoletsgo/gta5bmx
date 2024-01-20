@@ -1,0 +1,146 @@
+<!--
+title: 复制差事
+description: 
+published: true
+date: 2024-01-13T09:00:09.542Z
+tags: 
+editor: ckeditor
+dateCreated: 2023-12-22T05:48:37.583Z
+-->
+
+<h1>json文件获取</h1>
+<h2><strong>安装Python</strong></h2>
+<p>访问<a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p>
+<p>下载并安装最新版本的 Python</p>
+<ul>
+  <li>在安装过程中，请确保勾选 "Add Python to PATH" 选项</li>
+</ul>
+<h2><strong>安装依赖库</strong></h2>
+<p>win+X打开终端或命令提示符</p>
+<p>运行以下命令安装 <code><strong>requests</strong></code> 库：</p>
+<pre><code class="language-plaintext">pip install requests</code></pre>
+<h2><strong>复制代码</strong></h2>
+<p>用记事本新建一个json-web-search，后缀改为.py，复制以下内容保存</p>
+<pre><code class="language-plaintext">import requests
+import json
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+MAX_CONCURRENT_REQUESTS = 20
+
+def crawl_url(url, found_data):
+    if found_data.is_set():
+        # Data found by another thread, no need to continue
+        return False
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            try:
+                data = response.json()
+                if data:
+                    print(f"数据已找到:{url}")
+                    print(f"请复制到Nicko's Job Editor里（不要复制空格）")
+                    # Set the flag indicating data is found
+                    found_data.set()
+                    return True
+            except json.JSONDecodeError:
+                print(f"Invalid JSON response for URL: {url}")
+        elif response.status_code == 404:
+            print(f"URL not found: {url}")
+        else:
+            print(f"Error for URL {url}: {response.status_code}")
+
+    except requests.RequestException as e:
+        print(f"Error for URL {url}: {str(e)}")
+
+    return False
+
+def crawl_urls_concurrently(base_url):
+    found_data = threading.Event()
+
+    urls = []
+    for i in range(3):
+        for j in range(500):
+            for lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]:
+                old_url = f"{base_url}/2_0.jpg"
+                url = f"{base_url.rsplit('/', 1)[0]}/{i}_{j}_{lang}.json"
+                urls.append(url)
+
+    with ThreadPoolExecutor(max_workers=MAX_CONCURRENT_REQUESTS) as executor:
+        futures = [executor.submit(crawl_url, url, found_data) for url in urls]
+        for future in as_completed(futures):
+            # Stop further crawling if any of the tasks returns True (data found)
+            if future.result():
+                break
+
+if __name__ == "__main__":
+    while True:
+        base_url = input("请输入差事图片URL（例如https://prod.cloud.rockstargames.com/ugc/gta5mission/1966/b5qPg2UtVkyK90ynmAl2-A/2_0.jpg）:")
+
+        if base_url.lower() == 'exit':
+            break
+
+        crawl_urls_concurrently(base_url)</code></pre>
+<blockquote>
+  <ul>
+    <li><code>MAX_CONCURRENT_REQUESTS = 20</code>是同时查询并发数量，根据自己的CPU性能决定，推荐10~20之间</li>
+    <li><code>i in range(3)</code>默认即可</li>
+    <li><code>j in range(500)</code>默认即可</li>
+    <li><code>lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]</code>如果你知道作者的国籍，可以把其他的国家代码缩写删除，加快查询速度</li>
+  </ul>
+</blockquote>
+<h2><strong>运行代码</strong></h2>
+<p>右键“json-web-search.py”弹出菜单，使用Python打开</p>
+<p>即可弹出一个终端程序，提示“请输入差事图片URL”</p>
+<h2>粘贴图片URL</h2>
+<p><a href="https://socialclub.rockstargames.com/jobs">https://socialclub.rockstargames.com/jobs</a></p>
+<p>搜索你想要搬运的差事，右键复制差事图片URL地址</p>
+<figure class="image"><img src="/fivem相关/nicko's_job_editor_2.png"></figure>
+<p>粘贴到终端程序里，回车确定</p>
+<p>提示“数据已找到，请复制到Nicko's Job Editor里（不要复制空格）。按 Enter 键继续...”</p>
+<h1>xml文件获取</h1>
+<h2>打开<strong>Nicko's Job Editor</strong></h2>
+<p><a href="/fivem相关/job_editor_1_2_0_0.rar"><span class="text-big">下载地址1（直链下载）</span></a></p>
+<p><a href="https://pan.baidu.com/s/1zb-OOU7Aduvp4a2qrG83vg?pwd=d5dz"><span class="text-big">下载地址2（百度网盘）</span></a></p>
+<p><a href="https://drive.google.com/file/d/1eGthxOLaJ3IN3a1g2F8mxdbviK8UihTa/view"><span class="text-big">下载地址3（谷歌网盘）</span></a></p>
+<figure class="image"><img src="/fivem相关/nicko's_job_editor_1.png"></figure>
+<p>右键paste粘贴刚刚复制的json地址</p>
+<h2>导出convert</h2>
+<p>弹出两次窗口都选择yes，选择xml保存路径</p>
+<h1>xml粘贴</h1>
+<p>打开<a href="https://gta5bmx.me/zh/FiveM/插件说明#作图">作图</a>功能后</p>
+<p>1.选择Props</p>
+<figure class="image"><img src="/fivem相关/copy1.png"></figure>
+<p>2.选择Advanced Option</p>
+<figure class="image"><img src="/fivem相关/copy2.png"></figure>
+<p>3.选择Upload XML</p>
+<figure class="image"><img src="/fivem相关/copy3.png"></figure>
+<p>4.用记事本打开获取的xml文件，复制里面的内容</p>
+<p>5.粘贴到弹出的框里，按下回车</p>
+<h1>额外的完善工作</h1>
+<h2>⚠️开启检查点高度检测</h2>
+<p>避免在地面上也能吃点</p>
+<p>1.选择Checkpoint</p>
+<figure class="image"><img src="/fivem相关/cptips1.png"></figure>
+<p>2.滑到最下面，选择Override，来编辑检查点</p>
+<figure class="image"><img src="/fivem相关/cptips2.png"></figure>
+<p>3.把所有检查点的Check Height设置为Yes</p>
+<figure class="image"><img src="/fivem相关/cptips3.png"></figure>
+<h2>设置Race Details</h2>
+<figure class="image"><img src="https://gta5bmx.me/fivem%E7%9B%B8%E5%85%B3/%E5%9B%BE%E5%90%8D%E4%BF%A1%E6%81%AF.png"></figure>
+<p>命名尽量标准，不然有可能查询不到</p>
+<ul>
+  <li>Title 输入标题（简体中文或者英文，不要重名，不要有！\/@￥%……&amp;等等非法符号）</li>
+  <li>Description 输入简介（简体中文或者英文，不要有！\/@￥%……&amp;等等非法符号）</li>
+  <li>Length 检查点总距离要大于1英里才能保存</li>
+  <li>Route Type 选择Point to Point（点对点），没有特殊需求，不要选择Laps（绕圈）</li>
+  <li>Map Type 设置为作者名字或者缩写，区分大小写，比如ioio/RA/nape777/PINO等</li>
+  <li>Image 封面图可以直接回车留空，也可以从Rockstar job页面右键复制<a href="https://prod.cloud.rockstargames.com/ugc/gta5mission/3821/wkbOITobik6qk3phTIZhPg/2_0.jpg">图片网址</a>（举例）并粘贴</li>
+  <li>Force Vehicle 设定为BMX</li>
+</ul>
