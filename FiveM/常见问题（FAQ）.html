@@ -2,7 +2,7 @@
 title: 常见问题（FAQ）
 description: 
 published: true
-date: 2024-02-21T13:16:37.951Z
+date: 2024-02-21T13:48:33.410Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T06:27:47.853Z
@@ -47,13 +47,13 @@ dateCreated: 2023-12-22T06:27:47.853Z
 <ul>
   <li>无限复活（类型A）</li>
 </ul>
-<pre><code class="language-plaintext">触发原因：在竞速里更换mod人物模型，导致验证机制判定你不在载具里，然后陷入无限复活
-解决方案：请在加载竞速差事前替换人物模型</code></pre>
+<pre><code class="language-plaintext">触发原因：使用了内置修改器menyoo，在竞速里死亡后，会变成故事模式的角色（比如麦克），然后陷入无限复活
+解决方案：需要将menyooConfig.ini里的设置调整如下，DeathModelReset = false</code></pre>
 <ul>
   <li>无限复活（类型B）</li>
 </ul>
-<pre><code class="language-plaintext">触发原因：使用了内置修改器menyoo，在竞速里死亡后，会变成故事模式的角色（比如麦克），然后陷入无限复活
-解决方案：需要将menyooConfig.ini里的设置调整如下，DeathModelReset = false</code></pre>
+<pre><code class="language-plaintext">触发原因：在竞速里更换mod人物模型，导致验证机制判定你不在载具里，然后陷入无限复活
+解决方案：请在加载竞速差事前替换人物模型</code></pre>
 <h2>8.在部分竞速差事里，BMX怎么重生位置在地面？</h2>
 <p>由于检查点在红/绿集装箱上，导致重生位置判定错误，管理员在后台手动调整该竞速差事的配置后，即可恢复正常</p>
 <h2>9.OBS和锁帧软件RTSS一块用，OBS怎么没有画面？</h2>
