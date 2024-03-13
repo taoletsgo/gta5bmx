@@ -2,7 +2,7 @@
 title: 常见问题（FAQ）
 description: 
 published: true
-date: 2024-03-13T10:45:21.931Z
+date: 2024-03-13T12:47:30.782Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T06:27:47.853Z
@@ -70,6 +70,22 @@ dateCreated: 2023-12-22T06:27:47.853Z
 <p>拍照翻译</p>
 <h1>暂未解决的BUG⚠️</h1>
 <h2>1.重生时有碰撞</h2>
-<p>无法修复</p>
+<p>无法修复。</p>
+<p>如果依然有人有疑问，并且想针对此问题进行私信，那么请在私信的开头先告诉我，为什么下面的代码不能解决重生碰撞问题？并给出完善的方法。</p>
+<pre><code class="language-plaintext">Citizen.CreateThread(function()
+    while true do
+        local ped = PlayerPedId()
+        local veh = GetVehiclePedIsIn(ped)
+        local vehList = GetGamePool('CVehicle')
+        
+        for k,v in pairs(vehList) do
+            if veh ~= v then
+                SetEntityNoCollisionEntity(v, veh, true)
+            end
+        end
+        
+        Citizen.Wait(0)
+    end
+end)</code></pre>
 <h2>2.部分道具缺失</h2>
 <p>比如prop_gate_cult_01_r、prop_gate_cult_01_l、prop_fnclink_03gate5等道具，等待修复</p>
