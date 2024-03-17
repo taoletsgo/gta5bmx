@@ -2,7 +2,7 @@
 title: Copy Jobs From Rockstar
 description: 
 published: true
-date: 2024-01-30T19:08:08.579Z
+date: 2024-03-17T17:49:17.863Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T09:58:43.345Z
@@ -66,7 +66,7 @@ def crawl_urls_concurrently(base_url):
     urls = []
     for i in range(3):
         for j in range(500):
-            for lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]:
+            for lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "kr", "es", "es-mx"]:
                 old_url = f"{base_url}/2_0.jpg"
                 url = f"{base_url.rsplit('/', 1)[0]}/{i}_{j}_{lang}.json"
                 urls.append(url)
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     <li><code>MAX_CONCURRENT_REQUESTS = 20</code>It is the number of concurrent queries at the same time. It is determined according to your own CPU performance. It is recommended to be between 10 and 20.</li>
     <li><code>i in range(3)</code>Just leave it as default</li>
     <li><code>j in range(500)</code>Just leave it as default</li>
-    <li><code>lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]</code>If you know the author's nationality, you can delete other country code to speed up the query.</li>
+    <li><code>lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "kr", "es", "es-mx"]</code>If you know the author's nationality, you can delete other country code to speed up the query.</li>
   </ul>
 </blockquote>
 <h2>Run code</h2>
@@ -102,7 +102,7 @@ if __name__ == "__main__":
 <p>Search for the job you want to copy, right-click and copy the job image URL address（Sorry, there are Chinese words in the pic.）</p>
 <figure class="image"><img src="https://gta5bmx.me/fivem%E7%9B%B8%E5%85%B3/nicko's_job_editor_2.png"></figure>
 <p>Paste it into the terminal program and press Enter to confirm</p>
-<p>Print "The json has been found, please copy it to Nicko's Job Editor. Press Enter to continue..."</p>
+<p>Print "The json has been found, Please copy it into Nicko's Job Editor (do not copy spaces)."</p>
 <h1>2.get .xml</h1>
 <h2><strong>Open Nicko's Job Editor</strong></h2>
 <p><a href="https://drive.google.com/file/d/1eGthxOLaJ3IN3a1g2F8mxdbviK8UihTa/view"><span class="text-big">Google Drive</span></a></p>
