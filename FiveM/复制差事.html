@@ -2,7 +2,7 @@
 title: 复制差事
 description: 
 published: true
-date: 2024-01-30T19:06:56.751Z
+date: 2024-03-17T17:49:44.400Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T05:48:37.583Z
@@ -67,7 +67,7 @@ def crawl_urls_concurrently(base_url):
     urls = []
     for i in range(3):
         for j in range(500):
-            for lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]:
+            for lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "kr", "es", "es-mx"]:
                 old_url = f"{base_url}/2_0.jpg"
                 url = f"{base_url.rsplit('/', 1)[0]}/{i}_{j}_{lang}.json"
                 urls.append(url)
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     <li><code>MAX_CONCURRENT_REQUESTS = 20</code>是同时查询并发数量，根据自己的CPU性能决定，推荐10~20之间</li>
     <li><code>i in range(3)</code>默认即可</li>
     <li><code>j in range(500)</code>默认即可</li>
-    <li><code>lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "pt", "kr", "es", "es-mx"]</code>如果你知道作者的国籍，可以把其他的国家代码缩写删除，加快查询速度</li>
+    <li><code>lang in ["en", "ja", "zh", "zh-cn", "fr", "de", "it", "ru", "pt", "pl", "kr", "es", "es-mx"]</code>如果你知道作者的国籍，可以把其他的国家代码缩写删除，加快查询速度</li>
   </ul>
 </blockquote>
 <h2><strong>运行代码</strong></h2>
