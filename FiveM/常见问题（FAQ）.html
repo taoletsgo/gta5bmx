@@ -2,16 +2,16 @@
 title: 常见问题（FAQ）
 description: 
 published: true
-date: 2024-04-10T13:56:03.862Z
+date: 2024-04-10T14:03:47.868Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T06:27:47.853Z
 -->
 
 <h1>常见问题⁉️（Update 2024/04/10）</h1>
-<h2>0.各种英文报错，无法加入服务器？</h2>
+<h2>1.各种英文报错，无法加入服务器？</h2>
 <p>拍照翻译，并仔细阅读<a href="https://gta5bmx.me/zh/FiveM/安装本体">安装本体</a>文档</p>
-<h2>1.创建人物角色怎么提示失败了？</h2>
+<h2>2.创建人物角色怎么提示失败了？</h2>
 <p>必须纯英文，不要有大写/数字/符号。一个例子：</p>
 <figure class="table">
   <table>
@@ -35,48 +35,14 @@ dateCreated: 2023-12-22T06:27:47.853Z
     </tbody>
   </table>
 </figure>
-<h2>2.在自由模式里，载具（比如BMX）附近生成新的BMX，怎么控制参数变得很奇怪？</h2>
-<ul>
-  <li>切记在生成新的BMX时，不要与任何碰撞体（比如BMX）接触</li>
-  <li>也不要在跑步时生成BMX</li>
-</ul>
-<h2>3.创建竞速菜单里怎么只有一个竞速差事？</h2>
-<p>回车键进入<mark class="marker-green">第二层级菜单</mark>后</p>
-<ul>
-  <li>根据<strong>作者标签</strong>选择地图</li>
-  <li>或者输入<strong>关键词</strong>搜索地图</li>
-</ul>
-<h2>4.在竞速差事里，如何关闭倒计时（did not finish）？</h2>
-<p>在创建比赛时，修改倒计时（DNF）为“关闭（no）”</p>
-<h2>5.在竞速差事里，与其他玩家在同一检查点，BMX怎么明显被加速/被减速？</h2>
-<p>在创建比赛时，关闭<mark class="marker-yellow">Catch-Up</mark>这个选项</p>
-<h2>6.在竞速差事里，怎么有时候没办法接触检查点，以及无法重生？</h2>
-<p>因为你在游玩上一个竞速差事时，处于<mark class="marker-yellow">死亡提示页面</mark>时或者<mark class="marker-yellow">重生</mark>后，你<mark class="pen-red">秒退</mark>了。如果需要退出，请在<mark class="marker-green">重生后等待3s</mark>左右，否则下一个竞速差事你需要反复进入两次，才可以正常游玩</p>
-<h2>7.在竞速差事里，BMX从高空落地时，人物怎么会容易从单车上摔落？</h2>
-<p>这就是正常的物理特性，且不会更新。</p>
-<blockquote>
-  <p>当前摔落级别设定：roll的绝对值小于45度时，不会触发布娃娃，也就是说低速撞击或中等程度磕绊不会摔落。你可以输入/rot并查看F8控制台来debug</p>
-  <p>欢迎提摔落级别相关的改进，但，高空落地和高速撞击的设定不会修改</p>
-</blockquote>
-<h2>8.在竞速差事里，为什么游戏会陷入无限复活？</h2>
-<ul>
-  <li>无限复活（类型A）</li>
-</ul>
-<pre><code class="language-plaintext">触发原因：使用了内置修改器menyoo，在竞速里死亡后，会变成故事模式的角色（比如麦克），然后陷入无限复活
-解决方案：需要将menyooConfig.ini里的设置调整如下，DeathModelReset = false</code></pre>
-<ul>
-  <li>无限复活（类型B）</li>
-</ul>
-<pre><code class="language-plaintext">触发原因：在竞速里更换mod人物模型，导致验证机制判定你不在载具里，然后陷入无限复活
-解决方案：请在加载竞速差事前替换人物模型</code></pre>
-<h2>9.在部分竞速差事里，BMX怎么重生位置在地面？</h2>
+<h2>3.只有一个竞速差事？如何关闭倒计时？怎么会被加速/被减速？</h2>
+<p>谜底就在谜面上，仔细阅读创建竞速差事页面的说明</p>
+<h2>4.在部分竞速差事里，BMX怎么重生位置在地面？</h2>
 <p>由于检查点在红/绿集装箱上，导致重生位置判定错误，管理员在后台手动调整该竞速差事的配置后，即可恢复正常</p>
-<h2>10.在部分竞速差事里，部分道具怎么缺失了？</h2>
+<h2>5.在部分竞速差事里，部分道具怎么缺失了？</h2>
 <p>因为有一部分道具FiveM不支持，或者道具是新版本DLC的。如果你发现了道具缺失，可以帮我在<a href="https://forge.plebmasters.de/objects">https://forge.plebmasters.de/objectss</a>上找到确切的名字，然后我将其模型流式传输到客户端</p>
-<h2>11.如何锁定FPS的数值，以及自定义绑定按键切换帧数？</h2>
-<p>正如<a href="https://gta5bmx.me/zh/FiveM/安装本体#锁帧">安装本体</a>中所描述的方法，使用RTSS软件进行锁帧，进阶使用请自行探索</p>
-<h2>12.OBS和锁帧软件RTSS一块用，OBS怎么没有画面？</h2>
-<p>RTSS - Setup - General - User Microsoft Detours API hooking（勾选），并修改数值为<mark class="marker-green">5000</mark></p>
+<h2>6.第三方软件或者修改器出了问题？</h2>
+<p>自行搜索并阅读该软件的文档/帮助/wiki/issue</p>
 <h1>暂未解决的BUG⚠️</h1>
 <h2>1.重生时有碰撞</h2>
 <p>无法修复的可能性95%，如果依然有人有疑问，并且想针对此问题进行私信，那么请在私信的开头先告诉我，为什么下面的代码不能解决重生瞬间仍然会碰撞的问题？并给出完善的方法</p>
