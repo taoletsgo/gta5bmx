@@ -2,13 +2,13 @@
 title: 常见问题（FAQ）
 description: 
 published: true
-date: 2024-04-26T17:40:30.026Z
+date: 2024-05-19T11:45:41.427Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-12-22T06:27:47.853Z
 -->
 
-<h1>常见问题⁉️（Update 2024/04/27）</h1>
+<h1>常见问题⁉️（Update 2024/05/19）</h1>
 <h2>1.各种英文报错，无法加入服务器？</h2>
 <p>拍照翻译，并仔细阅读<a href="https://gta5bmx.me/zh/FiveM/安装本体">安装本体</a>文档</p>
 <h2>2.创建人物角色时，怎么提示失败了？</h2>
@@ -41,19 +41,4 @@ dateCreated: 2023-12-22T06:27:47.853Z
 <p>自行解决</p>
 <h1>暂未解决的BUG⚠️</h1>
 <h2>1.重生时有碰撞</h2>
-<p>无法修复的可能性95%，如果依然有人有疑问，并且想针对此问题进行私信，那么请在私信的开头先告诉我，为什么下面的代码不能解决重生瞬间仍然会碰撞的问题？并给出完善的方法</p>
-<pre><code class="language-plaintext">Citizen.CreateThread(function()
-    while true do
-        local ped = PlayerPedId()
-        local veh = GetVehiclePedIsIn(ped)
-        local vehList = GetGamePool('CVehicle')
-        
-        for k,v in pairs(vehList) do
-            if veh ~= v then
-                SetEntityNoCollisionEntity(v, veh, true)
-            end
-        end
-        
-        Citizen.Wait(0)
-    end
-end)</code></pre>
+<p>&nbsp;</p>
